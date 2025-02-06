@@ -43,7 +43,7 @@ public class UserController
 	@Autowired
 	private ForgotPasswordService forgotPasswordService;
 	
-	private String jwt;
+	//private String jwt;
 	
 	
 	@GetMapping("/api/users/profile")
