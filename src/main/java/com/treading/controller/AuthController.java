@@ -24,6 +24,7 @@ import com.treading.service.CustomUserDetailsService;
 import com.treading.service.EmailService;
 import com.treading.service.TwoFactorOtpService;
 import com.treading.service.TwoFactorOtpServiceImpl;
+import com.treading.service.WatchListService;
 import com.treading.utils.OtpUtils;
 
 @RestController
@@ -42,6 +43,9 @@ public class AuthController
 		
 		@Autowired
 		private EmailService emailService ;
+		
+		@Autowired
+		private WatchListService watchListService;
 		
 		
 		@PostMapping("/signup")
@@ -65,6 +69,8 @@ public class AuthController
 			
 			
 			User savedUser = userRepository.save(newUser);
+			
+			watchListService.createWatchList(savedUser);
 			
 			Authentication auth = new UsernamePasswordAuthenticationToken(
 					newUser.getEmail(), 
