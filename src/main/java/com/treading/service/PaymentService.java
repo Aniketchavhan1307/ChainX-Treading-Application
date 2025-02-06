@@ -1,6 +1,7 @@
 package com.treading.service;
 
 import com.razorpay.RazorpayException;
+import com.stripe.exception.StripeException;
 import com.treading.domain.PaymentMethod;
 import com.treading.entities.PaymentOrder;
 import com.treading.entities.User;
@@ -16,7 +17,7 @@ public interface PaymentService
 
 	PaymentResponse createRazorpayPaymentLink(User user, Long amount) throws RazorpayException;
 	
-	PaymentResponse createStripePaymentLink(User user, Long amount, Long orderId);
+	PaymentResponse createStripePaymentLink(User user, Long amount, Long orderId) throws StripeException;
 	
 	
 }

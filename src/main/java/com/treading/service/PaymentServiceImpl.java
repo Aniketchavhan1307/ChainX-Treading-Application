@@ -9,6 +9,10 @@ import com.razorpay.Payment;
 import com.razorpay.PaymentLink;
 import com.razorpay.RazorpayClient;
 import com.razorpay.RazorpayException;
+import com.stripe.Stripe;
+import com.stripe.exception.StripeException;
+import com.stripe.model.checkout.Session;
+import com.stripe.param.checkout.SessionCreateParams;
 import com.treading.domain.PaymentMethod;
 import com.treading.domain.PaymentOrderStatus;
 import com.treading.entities.PaymentOrder;
@@ -145,9 +149,43 @@ public class PaymentServiceImpl implements PaymentService
 	
 	
 
-	public PaymentResponse createStripePaymentLink(User user, Long amount, Long orderId)
+	public PaymentResponse createStripePaymentLink(User user, Long amount, Long orderId) throws StripeException
 	{
-		return null;
+			Stripe.apiKey = stripeSecretKey;
+			
+			SessionCreateParams params = SessionCreateParams.builder()
+											.addPaymentMethodType(SessionCreateParams.PaymentMethodType.CARD)
+											.setMode(SessionCreateParams.Mode.PAYMENT)
+											.setSuccessUrl("http://localhost:8080/wallet?order_id="+orderId)
+											.setCancelUrl("http://localhost:8080/payment/cancel")
+											.addLineItem(SessionCreateParams.LineItem.builder()
+													.setQuantity(1L)
+													.setPriceData(
+															SessionCreateParams
+															.LineItem
+															.PriceData.builder()
+															.setCurrency("usd")
+															.setUnitAmount(amount*100)
+															.setProductData(SessionCreateParams
+																				.LineItem
+																				.PriceData
+																				.ProductData
+																				.builder()
+																				.setName("Top up wallet")
+																				.build()
+																	).build()
+															).build()
+													).build();
+											
+		
+		Session session = Session.create(params);
+		
+		System.out.println("Session  " + session);
+		
+		PaymentResponse response = new PaymentResponse();
+		response.setPayment_url(session.getUrl());
+		
+		return response;
 	}
 
 }
