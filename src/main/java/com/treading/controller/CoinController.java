@@ -30,7 +30,7 @@ public class CoinController
 	
 	
 	@GetMapping
-	public ResponseEntity<List<Coin>> getCoinList(@RequestParam("page") int page) throws JsonMappingException, JsonProcessingException, Exception
+	public ResponseEntity<List<Coin>> getCoinList(@RequestParam(name="page", required = false) int page) throws JsonMappingException, JsonProcessingException, Exception
 	{
 		List<Coin> coins = coinService.getCoinList(page);
 		
@@ -71,7 +71,7 @@ public class CoinController
 	}
 	
 	
-	@GetMapping("/treading")
+	@GetMapping("/trending")
 	public ResponseEntity<JsonNode> getTreadingCoin( ) throws JsonMappingException, JsonProcessingException, Exception
 	{
 		String coins = coinService.getTreadingCoins();

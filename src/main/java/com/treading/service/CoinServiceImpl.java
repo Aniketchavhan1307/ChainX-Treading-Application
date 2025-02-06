@@ -106,21 +106,21 @@ public class CoinServiceImpl implements CoinService
 			coin.setId(jsonNode.get("id").asText());
 			coin.setName(jsonNode.get("name").asText());
 			coin.setSymbol(jsonNode.get("symbol").asText());
-			coin.setImage(jsonNode.get("image").get("Large").asText());
+			coin.setImage(jsonNode.get("image").get("large").asText());
 			
 			JsonNode marketData = jsonNode.get("market_data");
 			
 			coin.setCurrentPrice(marketData.get("current_price").get("usd").asDouble());
 			coin.setMarketCap(marketData.get("market_cap").get("usd").asLong());
 			coin.setMarketCapRank(marketData.get("market_cap_rank").asInt());
-			coin.setTotalVolume(marketData.get("total_valume").get("usd").asLong());
+			coin.setTotalVolume(marketData.get("total_volume").get("usd").asLong());
 			coin.setHigh24h(marketData.get("high_24h").get("usd").asDouble());
 			coin.setLow24h(marketData.get("low_24h").get("usd").asDouble());
-			coin.setPriceChange24h(marketData.get("price_change_24h").get("usd").asDouble());
-			coin.setPriceChangePercentage24h(marketData.get("price_change_percentage_24h").get("usd").asDouble());
+			coin.setPriceChange24h(marketData.get("price_change_24h").asDouble());
+			coin.setPriceChangePercentage24h(marketData.get("price_change_percentage_24h").asDouble());
 			coin.setMarketCapChange24h(marketData.get("market_cap_change_24h").asLong());
 			coin.setMarketCapChangePercentage24h(marketData.get("market_cap_change_percentage_24h").asLong());
-			coin.setTotalSupply(marketData.get("total_supply").get("usd").asLong());
+			coin.setTotalSupply(marketData.get("total_supply").asLong());
 			
 			coinRepository.save(coin);
 			
@@ -199,7 +199,7 @@ public class CoinServiceImpl implements CoinService
 	
 	public String getTreadingCoins() throws Exception
 	{
-		String url = "https://api.coingecko.com/api/v3/search/treading";
+		String url = "https://api.coingecko.com/api/v3/search/trending";
 		
 		RestTemplate restTemplate = new RestTemplate();
 		
